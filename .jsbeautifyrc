@@ -1,0 +1,19 @@
+{
+  "html": {
+    "brace_style": "collapse",
+    "indent_char": " ",
+    "indent_scripts": "normal",
+    "indent_size": 3,
+    "wrap_indent": 8,
+    "wrap_line_length": 80,
+    "max_preserve_newlines": 1,
+    "preserve_newlines": true,
+    "unformatted": [
+      "sub",
+      "sup",
+      "b",
+      "i",
+      "u"
+    ]
+  }
+}
