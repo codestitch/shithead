@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 
 const routes: Routes = [
+   {
+      path: '',
+      loadChildren: () => import('./main/main.module').then(m => m.MainModule)
+   },
    {
       path: 'game',
       loadChildren: () => import('./game/game.module').then(m => m.GameModule)
    },
    {
       path: 'rules',
-      loadChildren: () =>
-         import('./rules/rules.module').then(m => m.RulesModule)
+      loadChildren: () => import('./rules/rules.module').then(m => m.RulesModule)
    },
    {
       path: '**',
@@ -20,10 +23,8 @@ const routes: Routes = [
 @NgModule({
    imports: [
       RouterModule.forRoot(routes, {
-         paramsInheritanceStrategy: 'always',
-         preloadingStrategy: PreloadAllModules,
-         relativeLinkResolution: 'corrected'
-      })
+         initialNavigation: 'enabled'
+      } as ExtraOptions)
    ],
    exports: [RouterModule]
 })

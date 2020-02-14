@@ -16,13 +16,18 @@ export class CardService {
       return this.httpClient.get(url) as Observable<CardDeck>;
    }
 
-   draw(deckId: number, count: number): Observable<CardDraw> {
+   draw(deckId: string, count: number): Observable<CardDraw> {
       const url = `${environment.cardApi}/${deckId}/draw/?count=${count}`;
       return this.httpClient.get(url) as Observable<CardDraw>;
    }
 
-   reshuffle(deckId: number): Observable<CardDeck> {
+   reshuffle(deckId: string): Observable<CardDeck> {
       const url = `${environment.cardApi}/${deckId}/shuffle`;
+      return this.httpClient.get(url) as Observable<CardDeck>;
+   }
+
+   partial(...cards: string[]) {
+      const url = `${environment.cardApi}/new/shuffle/?cards=${cards}`;
       return this.httpClient.get(url) as Observable<CardDeck>;
    }
 }

@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { Item } from './services/models/item';
-import { CardService } from './services/card.service';
 
 @Component({
    selector: 'app-root',
@@ -8,22 +6,8 @@ import { CardService } from './services/card.service';
    styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-   title = 'shithead';
-   items: Array<Item>;
-   constructor(private cardService: CardService) {}
+   title = 'Xhead';
+   constructor() {}
 
-   ngOnInit() {
-      this.fetchData();
-   }
-   fetchData() {
-      // this.cardService.fetch().subscribe(
-      //    (data: Array<Item>) => {
-      //       console.log(data);
-      //       this.items = data;
-      //    },
-      //    err => {
-      //       console.log(err);
-      //    }
-      // );
-   }
+   ngOnInit() {}
 }
