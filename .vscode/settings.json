@@ -1,0 +1,32 @@
+{
+   "editor.tabSize": 3,
+   "editor.detectIndentation": false,
+   "editor.codeLens": true,
+   "typescript.referencesCodeLens.enabled": true,
+   "workbench.iconTheme": "material-icon-theme",
+   "[yaml]": {
+      "editor.insertSpaces": true,
+      "editor.tabSize": 3,
+      "editor.autoIndent": false
+   },
+   "[html]": {
+      "editor.defaultFormatter": "HookyQR.beautify"
+   },
+   "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+   },
+   "[scss]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+   },
+   "[javascript]": {
+      "editor.formatOnSave": false,
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+   },
+   "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+   },
+   "breadcrumbs.enabled": true,
+   "sassFormat.indent": 3,
+   "git.ignoreLimitWarning": true,
+   "typescript.tsdk": "node_modules\\typescript\\lib"
+}
