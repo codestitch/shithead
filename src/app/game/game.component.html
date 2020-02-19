@@ -1,35 +1,3 @@
-<div>
-   opp
-</div>
-<div>
-   play area
-</div>
-
-<div cdkDropListGroup>
-   <xh-hand [cards]="cards$ | async" 
-      (cardsRemoved)="itemsRemoved($event, 1)"
-      (cardsAdded)="itemsAdded($event, 1)"
-      (cardsUpdated)="itemsUpdated($event, 1)"
-      (selectionChanged)="selectionChanged($event, 1)">
-   </xh-hand>
-
-
-    <!--  <xh-multi-drag [items]="[0,1,2,3,4,5,6]"
-      (itemsRemoved)="itemsRemoved($event, 2)"
-      (itemsAdded)="itemsAdded($event, 2)"
-      (itemsUpdated)="itemsUpdated($event, 2)"
-      (selectionChanged)="selectionChanged($event, 2)">
-      <ng-template let-item>
-         --{{ item }}-- 
-         <div *ngIf="(cards$ | async) as solidCard">
-           <img [src]="solidCard[item].image" width="50rem"/>
-            <div>{{ solidCard[item].code }}</div>
-         </div>
-       </ng-template>
-   </xh-multi-drag>  -->
-</div>
-
-<button (click)="clearEvents()">Clear Events:</button>
-<div *ngFor="let ev of events">
-   {{ev.text}}: {{ev.ev}}
+<div *ngFor="let player of players$ | async">
+   <xh-player [blinds]="player.blinds" [hands]="player.hands"></xh-player>
 </div>

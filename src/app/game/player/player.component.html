@@ -1,0 +1,14 @@
+<div cdkDropListGroup>
+   <xh-blind [faceDown]="blinds"></xh-blind>
+
+   <xh-hand [cards]="hands" 
+      (cardsRemoved)="itemsRemoved($event, 1)"
+      (cardsAdded)="itemsAdded($event, 1)"
+      (cardsUpdated)="itemsUpdated($event, 1)"
+      (selectionChanged)="selectionChanged($event, 1)">
+   </xh-hand>
+</div>
+<button (click)="clearEvents()">Clear Events:</button>
+<div *ngFor="let ev of events">
+   {{ev.text}}: {{ev.ev}}
+</div>
