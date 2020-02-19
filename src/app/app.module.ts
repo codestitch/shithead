@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
    declarations: [AppComponent],
@@ -15,7 +16,8 @@ import { AppRoutingModule } from './app-routing.module';
       AppRoutingModule,
       ServiceWorkerModule.register('ngsw-worker.js', {
          enabled: environment.production
-      })
+      }),
+      DragDropModule
    ],
    providers: [],
    bootstrap: [AppComponent]

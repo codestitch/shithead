@@ -1,1 +1,4 @@
-<p>rules works!</p>
+<a href="/">Return</a>
+<div *ngFor="let card of cards$ | async">
+   <img [src]="card.image" />
+</div>

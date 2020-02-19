@@ -1,0 +1,19 @@
+@mixin card {
+   position: relative;
+   float: left;
+   margin: 5px -46px 5px 0px;
+   transition: top 0.5s ease 0.1s, left 0.5s ease 0.1s;
+   width: 5.5rem;
+   top: 0px;
+   left: 0px;
+   list-style: none;
+   transform-style: preserve-3d;
+   backface-visibility: hidden;
+   perspective: 1000;
+   transform: translateZ(0deg);
+
+   &.selected {
+      top: -1rem;
+      cursor: pointer;
+   }
+}

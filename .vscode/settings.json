@@ -28,5 +28,8 @@
    "breadcrumbs.enabled": true,
    "sassFormat.indent": 3,
    "git.ignoreLimitWarning": true,
-   "typescript.tsdk": "node_modules\\typescript\\lib"
+   "typescript.tsdk": "node_modules\\typescript\\lib",
+   "workbench.editor.limit.enabled": true,
+   "workbench.editor.limit.perEditorGroup": true,
+   "workbench.editor.limit.value": 10
 }

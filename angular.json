@@ -5,14 +5,10 @@
   "projects": {
     "shithead": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "styleext": "scss"
-        }
-      },
+      "schematics": {},
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "xh",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",

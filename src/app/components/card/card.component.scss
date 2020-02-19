@@ -1,0 +1,9 @@
+@import 'src/assets/mixins.scss';
+
+:host {
+   @include card;
+
+   .card-image {
+      width: 7rem;
+   }
+}
