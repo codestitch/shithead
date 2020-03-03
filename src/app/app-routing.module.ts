@@ -13,18 +13,12 @@ const routes: Routes = [
    {
       path: 'rules',
       loadChildren: () => import('./rules/rules.module').then(m => m.RulesModule)
-   },
-   {
-      path: '**',
-      redirectTo: '/'
    }
 ];
 
 @NgModule({
    imports: [
-      RouterModule.forRoot(routes, {
-         initialNavigation: 'enabled'
-      } as ExtraOptions)
+      RouterModule.forRoot(routes)
    ],
    exports: [RouterModule]
 })

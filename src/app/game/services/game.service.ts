@@ -1,63 +1,67 @@
 import { Injectable } from '@angular/core';
 import { CardService } from 'src/app/services/card.service';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { Player } from '../models/player';
 import { BaseService } from 'src/app/services/base-service';
-import { Card, CardDeck } from 'src/app/services/models';
-import { switchMap, map } from 'rxjs/operators';
+import { map, tap, expand, take, delay, switchMap } from 'rxjs/operators';
+import { ApiService } from 'src/app/services/api.service';
+import { DealCommand, PlayerAttribute } from 'src/app/services/api-models';
+import { GameAttribute } from 'src/app/services/api-models/game-attribute';
 
 const STARTING_CARDS = 9;
 const TEMP_IMAGE = 'https://image.flaticon.com/icons/svg/1141/1141093.svg';
 
 @Injectable()
 export class GameService extends BaseService {
-   deck$: Observable<CardDeck>;
+   game$: Observable<GameAttribute>;
    playerCount = 2;
-   players$: Observable<Player[]>;
-   _players$ = new BehaviorSubject<Player[]>([]);
+   players$: Observable<PlayerAttribute[]>;
+   _players$ = new BehaviorSubject<PlayerAttribute[]>([]);
 
-   constructor(private cardService: CardService) {
+   constructor(private api: ApiService) {
       super();
 
       this.players$ = this._players$.asObservable();
-      this.deck$ = this.cardService.shuffle(1);
    }
 
-   play() {
-      let count = 1;
-      do {
-         this.deal(count)
-            .pipe(
-               map(player => {
-                  const current = this._players$.getValue();
-                  this._players$.next([...current, player]);
-               })
-            )
-            .subscribe();
-         count++;
-      } while (count <= this.playerCount);
+   setPlayer(count: number) {
+      this.playerCount = count;
    }
 
-   deal(playerNo: number): Observable<Player> {
-      return this.deck$.pipe(
-         switchMap(d => this.cardService.draw(d.deck_id, STARTING_CARDS)),
-         map(cardDraw =>
-            cardDraw.cards.map(
-               x =>
-                  <Card>{
-                     ...x,
-                     image: TEMP_IMAGE
-                  }
-            )
-         ),
-         map(
-            card =>
-               <Player>{
-                  name: `Player ${playerNo}`,
-                  blinds: card.slice(0, 3),
-                  hands: card.slice(3)
-               }
+   newDeal(playercount: number = 2, deckcount: number = 1, hasjoker: boolean = false): Observable<number> {
+      return this.api.gameDealPost({ playercount, deckcount, hasjoker } as DealCommand).pipe(map(g => g.id));
+   }
+
+   newPlayer(name: string) {
+      return this.game$.pipe(
+         switchMap(game =>
+            this.api.playerCreatePost({
+               name: `player ${name}`,
+               gameId: game.id
+            })
          )
       );
    }
+
+   // deal(playerNo: number): Observable<Player> {
+   //    return this.deck$.pipe(
+   //       switchMap(d => this.cardService.draw(d.deck_id, STARTING_CARDS)),
+   //       map(cardDraw =>
+   //          cardDraw.cards.map(
+   //             x =>
+   //                <Card>{
+   //                   ...x,
+   //                   image: TEMP_IMAGE
+   //                }
+   //          )
+   //       ),
+   //       map(
+   //          card =>
+   //             <Player>{
+   //                name: `Player ${playerNo}`,
+   //                blinds: card.slice(0, 3),
+   //                hands: card.slice(3)
+   //             }
+   //       )
+   //    );
+   // }
 }

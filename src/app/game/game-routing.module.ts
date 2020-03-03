@@ -6,7 +6,20 @@ export const routes: Routes = [
    {
       path: '',
       component: GameComponent,
-      children: []
+      children: [
+         {
+            path: 'create',
+            loadChildren: () => import('./create/create.module').then(x => x.CreateModule)
+         },
+         {
+            path: 'join',
+            loadChildren: () => import('./join/join.module').then(x => x.JoinModule)
+         },
+         {
+            path: 'play/:id',
+            loadChildren: () => import('./play/play.module').then(x => x.PlayModule)
+         }
+      ]
    }
 ];
 
