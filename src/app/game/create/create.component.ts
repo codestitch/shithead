@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { GameService } from '../services/game.service';
-import { DealCommand } from 'src/app/services/api-models';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { RoomApiService } from 'src/app/services/room-api.service';
+import { RoomMetadata } from 'src/app/services/models/room-metadata';
 
 @Component({
    selector: 'xh-create',
@@ -9,25 +9,23 @@ import { Router, ActivatedRoute } from '@angular/router';
    styleUrls: ['./create.component.scss']
 })
 export class CreateComponent implements OnInit {
-   gameCommand: DealCommand = {
-      deckcount: 1,
-      hasjoker: false,
-      playercount: 2
+   room: RoomMetadata = {
+      name: 'Test Room',
+      deckCount: 1,
+      hasJoker: false,
+      maxPlayer: 4,
+      playerName: 'Amazing Creator'
    };
 
-   constructor(
-      private gameService: GameService,
-      private router: Router,
-      private route: ActivatedRoute
-   ) {}
+   constructor(private router: Router, private roomApi: RoomApiService) {}
 
    ngOnInit(): void {}
 
-   deal() {
-      const { deckcount, hasjoker, playercount } = this.gameCommand;
-      this.gameService
-         .newDeal(playercount, deckcount, hasjoker)
-         .subscribe(gameId => this.router.navigate([`/game/play/${gameId}`]));
+   create() {
+      this.roomApi.create(this.room).subscribe(id => {
+         console.log(id);
+         this.router.navigate([`/game/play/${id}`]);
+      });
    }
 
    choose(ev) {

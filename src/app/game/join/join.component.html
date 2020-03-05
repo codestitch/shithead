@@ -1,1 +1,5 @@
-<p>join works!</p>
+Available rms
+<div *ngFor="let room of rooms$ | async">
+   {{room | json}}
+   <button (click)="join(room)">Join</button>
+</div>

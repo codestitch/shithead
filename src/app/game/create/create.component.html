@@ -1,9 +1,10 @@
-Deck count: <input [(ngModel)]="gameCommand.deckcount" type="number"/>
-Player count: <input [(ngModel)]="gameCommand.playercount" type="number"/>
-joker:
-<input type="radio" name="hasjoker" [value]="true" [(ngModel)]="gameCommand.hasjoker"
+<!-- n: <input [(ngModel)]="room.name" />
+dcount: <input [(ngModel)]="room.deckCount" type="number" />
+pcount: <input [(ngModel)]="room.maxPlayer" type="number" />
+jkr:
+<input type="radio" name="hasJoker" [value]="true" [(ngModel)]="room.hasJoker"
    (ngModelChange)="choose($event)" />True
-<input type="radio" name="hasjoker" [value]="false" [(ngModel)]="gameCommand.hasjoker"
-   (ngModelChange)="choose($event)" />False
+<input type="radio" name="hasJoker" [value]="false" [(ngModel)]="room.hasJoker"
+   (ngModelChange)="choose($event)" />False -->
 
-<button (click)="deal()"> Deal</button>
+<button (click)="create()"> Create </button>
