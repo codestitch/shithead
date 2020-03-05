@@ -1,0 +1,13 @@
+:host {
+   display: block;
+
+   .opponent-section {
+      display: block;
+      border: 1px solid red;
+   }
+
+   .player-section {
+      display: block;
+      border: 1px solid green;
+   }
+}

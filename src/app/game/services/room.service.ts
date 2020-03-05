@@ -16,13 +16,7 @@ export class RoomService {
    constructor() {}
 
    create(room: RoomMetadata): Observable<string> {
-      const { name, hasJoker, deckCount, maxPlayer } = room;
-      const promise = this.client.create(environment.roomName, {
-         name,
-         hasJoker,
-         deckCount,
-         maxPlayer
-      });
+      const promise = this.client.create(environment.roomName, room);
       this.room$ = from(promise).pipe(
          map(room => room),
          shareReplay(1)

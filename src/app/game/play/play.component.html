@@ -1,2 +1,7 @@
+<div class="opponent-section">
+   <xh-player *ngFor="let id of opponentSessionIds" [player]="players[id]">
+   </xh-player>
+</div>
 
+<xh-player [player]="players[ownSessionId]" class="player-section"></xh-player>
 <button (click)="draw()">Draw</button>

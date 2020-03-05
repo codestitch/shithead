@@ -1,13 +1,17 @@
+{{ player | json }}
 <div cdkDropListGroup>
-   <xh-blind [faceDown]="blinds"></xh-blind>
+   <xh-blind [faceDown]="player.blinds"></xh-blind>
 
-   <xh-hand [cards]="hands" 
+   <xh-hand [cards]="player.hands" 
       (cardsRemoved)="itemsRemoved($event, 1)"
       (cardsAdded)="itemsAdded($event, 1)"
       (cardsUpdated)="itemsUpdated($event, 1)"
       (selectionChanged)="selectionChanged($event, 1)">
    </xh-hand>
 </div>
+
+NAME: {{ player.name }}
+
 <button (click)="clearEvents()">Clear Events:</button>
 <div *ngFor="let ev of events">
    {{ev.text}}: {{ev.ev}}

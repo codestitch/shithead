@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PlayComponent } from './play.component';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { PlayerModule } from '../player/player.module';
 
 const routes: Routes = [
    {
@@ -13,6 +14,11 @@ const routes: Routes = [
 
 @NgModule({
    declarations: [PlayComponent],
-   imports: [CommonModule, RouterModule.forChild(routes), FormsModule]
+   imports: [
+      CommonModule,
+      RouterModule.forChild(routes),
+      FormsModule,
+      PlayerModule
+   ]
 })
 export class PlayModule {}
