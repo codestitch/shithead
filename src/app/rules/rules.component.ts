@@ -1,17 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { CardService } from '../services/card.service';
+import { Component } from '@angular/core';
 import { BaseComponent } from '../services/base-component';
-import { switchMap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { Card } from '../services/models';
 
 @Component({
    selector: 'xh-rules',
    templateUrl: './rules.component.html',
-   styleUrls: ['./rules.component.scss'],
-   providers: [CardService]
+   styleUrls: ['./rules.component.scss']
 })
-
 export class RulesComponent extends BaseComponent {
    sampleCards = [
       '3S',
@@ -29,16 +24,9 @@ export class RulesComponent extends BaseComponent {
       '2S',
       '3D'
    ];
-   cards$: Observable<Card[]>;
+   cards$: Observable<string[]>;
 
-   constructor(private cardService: CardService) {
+   constructor() {
       super();
-
-      this.cards$ = this.cardService.partial(...this.sampleCards).pipe(
-         switchMap(x =>
-            this.cardService.draw(x.deck_id, this.sampleCards.length)
-         ),
-         map(c => c.cards)
-      );
    }
 }

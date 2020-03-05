@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { from, Observable, throwError } from 'rxjs';
 import { environment } from '@xhead/environment';
 import * as Colyseus from 'colyseus.js';
-import { map, catchError, shareReplay } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { RoomAvailable } from 'colyseus.js/lib/Room';
-import { RoomMetadata } from './models/room-metadata';
+import { RoomMetadata } from './models';
 
-@Injectable()
-export class RoomApiService {
+@Injectable({
+   providedIn: 'root'
+})
+export class RoomService {
    room$: Observable<Colyseus.Room>;
    client = new Colyseus.Client(environment.connection);
 

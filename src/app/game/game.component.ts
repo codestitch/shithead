@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { RoomApiService } from '../services/room-api.service';
+import { RoomService } from './services/room.service';
 
 @Component({
    selector: 'xh-game',
    templateUrl: './game.component.html',
    styleUrls: ['./game.component.scss'],
-   providers: [RoomApiService]
+   providers: [RoomService]
 })
 export class GameComponent implements OnInit {
    constructor() {

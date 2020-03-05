@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RoomApiService } from 'src/app/services/room-api.service';
-import { RoomMetadata } from 'src/app/services/models/room-metadata';
+import { RoomService } from '../services/room.service';
+import { RoomMetadata } from '../services/models';
 
 @Component({
    selector: 'xh-create',
@@ -17,7 +17,7 @@ export class CreateComponent implements OnInit {
       playerName: 'Amazing Creator'
    };
 
-   constructor(private router: Router, private roomApi: RoomApiService) {}
+   constructor(private router: Router, private roomApi: RoomService) {}
 
    ngOnInit(): void {}
 
