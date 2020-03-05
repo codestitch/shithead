@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Card } from 'src/app/services/models';
 
 @Component({
    selector: 'xh-player',
@@ -7,9 +6,9 @@ import { Card } from 'src/app/services/models';
    styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent implements OnInit {
-   @Input() blinds: Card[];
-   @Input() hands: Card[];
-   @Input() draw: Card[];
+   @Input() blinds: string[];
+   @Input() hands: string[];
+   @Input() draw: string[];
    events = [];
 
    constructor() {}

@@ -9,7 +9,6 @@ import {
    ElementRef,
    ChangeDetectorRef
 } from '@angular/core';
-import { Card } from 'src/app/services/models';
 import { CdkDragStart, DragRef, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { sumBy, get, pullAt } from 'lodash-es';
 
@@ -19,7 +18,7 @@ import { sumBy, get, pullAt } from 'lodash-es';
    styleUrls: ['./hand.component.scss']
 })
 export class HandComponent {
-   @Input() cards: Card[];
+   @Input() cards: string[];
    @Output() cardsRemoved = new EventEmitter<any[]>();
    @Output() cardsAdded = new EventEmitter<any[]>();
    @Output() cardsUpdated = new EventEmitter<any[]>();
@@ -41,7 +40,7 @@ export class HandComponent {
          : [...this.indexSelections, index];
 
       this.selectionChanged.emit(
-         this.indexSelections.map(i => this.cards[i].code)
+         this.indexSelections.map(i => this.cards[i])
       );
    }
 
@@ -58,7 +57,7 @@ export class HandComponent {
          source: this
       };
       if (indices.length === 1) {
-         this.selectionChanged.emit([this.cards[index].code]);
+         this.selectionChanged.emit([this.cards[index]]);
       }
       this.cdRef.detectChanges();
    }
@@ -107,9 +106,9 @@ export class HandComponent {
       this.indexSelections = [];
       
       if (ev.previousContainer !== ev.container) {
-         this.cardsAdded.emit(data.values.map(c => c.code));
+         this.cardsAdded.emit(data.values);
       }
-      this.cardsUpdated.emit(this.cards.map(c => c.code));
+      this.cardsUpdated.emit(this.cards.map(c => c));
       setTimeout(() => this.cdRef.detectChanges());
    }
 
