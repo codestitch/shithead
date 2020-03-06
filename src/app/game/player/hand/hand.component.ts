@@ -24,6 +24,7 @@ export class HandComponent {
    @Output() cardsUpdated = new EventEmitter<any[]>();
    @Output() selectionChanged = new EventEmitter<any[]>();
    @ContentChild(TemplateRef, { static: false }) templateRef;
+   TEMP_IMAGE = 'https://www.flaticon.com/premium-icon/icons/svg/1911/1911305.svg';
 
    sampleIndex = [1,2];
    dragging: DragRef = null;

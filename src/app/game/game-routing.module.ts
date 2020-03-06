@@ -16,7 +16,7 @@ export const routes: Routes = [
             loadChildren: () => import('./join/join.module').then(x => x.JoinModule)
          },
          {
-            path: 'play/:id',
+            path: 'play/:status',
             loadChildren: () => import('./play/play.module').then(x => x.PlayModule)
          }
       ]

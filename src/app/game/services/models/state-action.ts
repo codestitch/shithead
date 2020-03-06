@@ -4,5 +4,6 @@ export enum StateAction {
    BLIND = 2,
    TRUMP = 3,
    PICKUP = 4,
-   ROLL = 5
+   ROLL = 5,
+   START = 6
 }

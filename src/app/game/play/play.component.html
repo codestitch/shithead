@@ -3,5 +3,10 @@
    </xh-player>
 </div>
 
+<div class="status-section">
+   <div *ngIf="!isCreator">Waiting for Dealer to start</div>
+   <button *ngIf="isCreator" (click)="start()">Start</button>
+</div>
+
 <xh-player [player]="players[ownSessionId]" class="player-section"></xh-player>
 <button (click)="draw()">Draw</button>

@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import * as Colyseus from 'colyseus.js';
 import { BaseComponent } from 'src/app/services/base-component';
 import { RoomService } from '../services/room.service';
-import { StateAction } from '../services/models';
-import { Player } from '../services/models/player-attribute';
+import { StateAction, Player } from '../services/models';
 import { ToArray } from 'src/app/services/util';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
    selector: 'xh-play',
@@ -12,78 +12,92 @@ import { ToArray } from 'src/app/services/util';
    styleUrls: ['./play.component.scss']
 })
 export class PlayComponent extends BaseComponent {
+   isCreator = false;
    ownSessionId: string;
    opponentSessionIds: string[] = [];
    players: { [id: string]: Player } = {};
    room: Colyseus.Room;
    client = new Colyseus.Client('ws://localhost:3000');
-   constructor(private roomApi: RoomService) {
+   constructor(private roomApi: RoomService, private route: ActivatedRoute) {
       super();
 
-      this.roomApi.room$.subscribe(x => {
-         console.log('Room:', x);
-         this.room = x;
-         this.ownSessionId = x.sessionId;
+      this.onInit$.subscribe(() => {
+         this.isCreator =
+            this.route.snapshot.paramMap.get('status') === 'creator';
 
-         console.log('Players', x.state.players);
-         this.players[x.sessionId] = new Player(
-            x.sessionId,
-            x.state.players[x.sessionId].name
-         );
-         this.createExistingPlayers(x.state.players.toJSON());
-      });
+         this.roomApi.room$.subscribe(x => {
+            console.log('Room:', x);
+            this.room = x;
+            this.ownSessionId = x.sessionId;
 
-      if (this.room) {
-         this.room.onStateChange(state => {
-            console.log('ON STATE CHANGE ONCE:', state);
+            console.log('Players', x.state.players);
+            this.players[x.sessionId] = new Player(
+               x.sessionId,
+               x.state.players[x.sessionId].name
+            );
+            this.createExistingPlayers(x.state.players.toJSON());
          });
 
-         this.room.onStateChange.once(state => {
-            console.log('ON STATE CHANGE:', state);
-         });
+         if (this.room) {
+            this.room.onStateChange(state => {
+               console.log('ON STATE CHANGE ONCE:', state);
+            });
 
-         this.room.onMessage(message => {
-            console.log('ON MESSAGE', message);
-         });
+            this.room.onStateChange.once(state => {
+               console.log('ON STATE CHANGE:', state);
+            });
 
-         this.room.onError(message => {
-            console.log('ON ERROR'), message;
-         });
+            this.room.onMessage(message => {
+               console.log('ON MESSAGE', message);
+            });
 
-         this.room.onLeave(code => {
-            console.log('ON LEAVE', code);
-         });
+            this.room.onError(message => {
+               console.log('ON ERROR'), message;
+            });
 
-         this.room.state.players.onAdd = (player, sessionId) => {
-            console.log('ONADD', player, sessionId);
-            if (!this.players[sessionId]) {
-               this.opponentSessionIds = [
-                  ...this.opponentSessionIds,
-                  sessionId
-               ];
-               this.players[sessionId] = new Player(
-                  sessionId,
-                  player.name,
+            this.room.onLeave(code => {
+               console.log('ON LEAVE', code);
+            });
+
+            this.room.state.players.onAdd = (player, sessionId) => {
+               console.log('ONADD', player, sessionId);
+               if (!this.players[sessionId]) {
+                  this.opponentSessionIds = [
+                     ...this.opponentSessionIds,
+                     sessionId
+                  ];
+                  this.players[sessionId] = new Player(
+                     sessionId,
+                     player.name,
+                     ToArray(player.hands),
+                     ToArray(player.blinds),
+                     ToArray(player.trumps)
+                  );
+               }
+            };
+
+            this.room.state.players.onRemove = (player, sessionId) => {
+               console.log('ONREMOVE', player, sessionId);
+               this.opponentSessionIds = this.opponentSessionIds.filter(
+                  x => x !== sessionId
+               );
+               delete this.players[sessionId];
+            };
+
+            this.room.state.players.onChange = (player, sessionId) => {
+               console.log('ONCHANGE', player, sessionId);
+               this.players[sessionId].setCards(
                   ToArray(player.hands),
                   ToArray(player.blinds),
                   ToArray(player.trumps)
                );
-            }
-         };
+            };
+         }
 
-         this.room.state.players.onRemove = (player, sessionId) => {
-            console.log('ONREMOVE', player, sessionId);
-         };
-
-         this.room.state.players.onChange = (player, sessionId) => {
-            console.log('ONCHANGE', player, sessionId);
-            this.players[sessionId].setCards(
-               ToArray(player.hands),
-               ToArray(player.blinds),
-               ToArray(player.trumps)
-            );
-         };
-      }
+         this.onDestroy$.subscribe(() => {
+            this.room.leave();
+         });
+      });
    }
 
    createExistingPlayers(players: { [id: string]: any }) {
@@ -102,5 +116,9 @@ export class PlayComponent extends BaseComponent {
             count: 2
          }
       });
+   }
+
+   start() {
+      this.room.send({ action: StateAction.START });
    }
 }

@@ -25,7 +25,7 @@ export class JoinComponent extends BaseComponent {
       const index = Math.floor(Math.random() * this.TEMP_NAMES.length) + 1;
       this.roomApi.join(room.roomId, this.TEMP_NAMES[index]).subscribe(id => {
          console.log(id);
-         this.router.navigate([`/game/play/${id}`]);
+         this.router.navigate([`/game/play/joiner`]);
       });
    }
 }
