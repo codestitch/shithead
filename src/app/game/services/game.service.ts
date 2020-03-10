@@ -3,7 +3,7 @@ import { BaseService } from 'src/app/services/base-service';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { RoomService } from './room.service';
 import { Player, RoomPlayerState, RoomMessageState } from './models';
-import { shareReplay, debounceTime, tap, map, share } from 'rxjs/operators';
+import { shareReplay, debounceTime, tap, map } from 'rxjs/operators';
 import { ToArray } from 'src/app/services/util';
 import { Room } from 'colyseus.js';
 
@@ -28,44 +28,58 @@ export class GameService extends BaseService {
             map((room: Room) => {
                if (room) {
                   this.setPlayer(
-                     room.state.players[room.sessionId].name,
+                     room.state.players[room.sessionId],
                      room.sessionId
                   );
 
                   this.createExistingPlayers(room.state.players.toJSON());
 
                   room.onStateChange(state => {
-                     console.log('ON STATE CHANGE ONCE:', state);
+                     console.log(
+                        '%c%cON STATE CHANGE ONCE:',
+                        'color: green',
+                        state
+                     );
                   });
 
                   room.onStateChange.once(state => {
-                     console.log('ON STATE CHANGE:', state);
+                     console.log('%cON STATE CHANGE:', 'color: green', state);
                   });
 
                   room.onLeave(code => {
-                     console.log('ON LEAVE', code);
+                     console.log('%cON LEAVE', 'color: green', code);
                      this.leaveRoom();
                   });
 
                   room.onMessage(message => {
-                     console.log('ON MESSAGE', message);
+                     console.log('%cON MESSAGE', 'color: green', message);
                   });
 
                   room.onError(message => {
-                     console.log('ON ERROR'), message;
+                     console.log('%cON ERROR', 'color: green', message);
                   });
 
                   room.state.players.onChange = (player, sessionId) => {
-                     console.log('ONCHANGE', player, sessionId);
+                     console.log(
+                        '%cONCHANGE',
+                        'color: green',
+                        player,
+                        sessionId
+                     );
                      this.updatePlayer(player, sessionId);
                   };
 
                   room.state.players.onAdd = (player, sessionId) => {
-                     console.log('ONADD', player, sessionId);
+                     console.log('%cONADD', 'color: green', player, sessionId);
                   };
 
                   room.state.players.onRemove = (player, sessionId) => {
-                     console.log('ONREMOVE', player, sessionId);
+                     console.log(
+                        '%cONREMOVE',
+                        'color: green',
+                        player,
+                        sessionId
+                     );
                   };
                } else this.roomService.reconnect();
             }),
@@ -82,10 +96,16 @@ export class GameService extends BaseService {
       this.gameRoom$.pipe(tap(room => room.send(message))).subscribe();
    }
 
-   setPlayer(name: string, sessionId: string) {
+   setPlayer(state: RoomPlayerState, sessionId: string) {
       this.playerSessionId = sessionId;
       const players = this._players$.getValue();
-      players[sessionId] = new Player(sessionId, name);
+      players[sessionId] = new Player(
+         sessionId,
+         state.name,
+         state.hands,
+         state.blinds,
+         state.trumps
+      );
       this._players$.next(players);
    }
 
@@ -94,9 +114,9 @@ export class GameService extends BaseService {
       players[sessionId] = new Player(
          sessionId,
          name,
-         ToArray(player.hands),
-         ToArray(player.blinds),
-         ToArray(player.trumps)
+         player.hands,
+         player.blinds,
+         player.trumps
       );
       this._players$.next(players);
    }
@@ -108,9 +128,9 @@ export class GameService extends BaseService {
          players[sessionId] = new Player(
             sessionId,
             player.name,
-            ToArray(player.hands),
-            ToArray(player.blinds),
-            ToArray(player.trumps)
+            player.hands,
+            player.blinds,
+            player.trumps
          );
          this._players$.next(players);
       }

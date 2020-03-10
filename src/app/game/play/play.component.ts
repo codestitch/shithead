@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import * as Colyseus from 'colyseus.js';
 import { BaseComponent } from 'src/app/services/base-component';
 import { StateAction, Player } from '../services/models';
 import { ActivatedRoute } from '@angular/router';
