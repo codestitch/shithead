@@ -1,5 +1,5 @@
 <div class="opponent-section">
-   <xh-player *ngFor="let id of opponentSessionIds" [player]="players[id]">
+   <xh-player *ngFor="let id of gameService.opponentSessionIds" [player]="players[id]">
    </xh-player>
 </div>
 
@@ -8,14 +8,14 @@
       <div *ngIf="!isCreator">Waiting for Dealer to start</div>
       <button *ngIf="isCreator" (click)="start()">Start</button>
    </div>
-   
+
    ---------------Play Pile----------------
-   <xh-play-pile [cards]="playPile" (add)="playAdd($event)"
+   <xh-play-pile [cards]="[]" (add)="playAdd($event)"
       (change)="playChange($event)" (remove)="playRemove($event)"
       (update)="playUpdate($event)"></xh-play-pile>
    ----------------------------------------
 
-   <xh-player [player]="players[ownSessionId]" class="player-section"
+   <xh-player [player]="players[gameService.playerSessionId]" class="player-section"
       (add)="playerAdd($event)" (change)="playerChange($event)"
       (remove)="playerRemove($event)" (update)="playerUpdate($event)">
    </xh-player>
