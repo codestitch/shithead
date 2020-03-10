@@ -9,15 +9,15 @@
       <button *ngIf="isCreator" (click)="start()">Start</button>
    </div>
 
-   ---------------Play Pile----------------
-   <xh-play-pile [cards]="[]" (add)="playAdd($event)"
-      (change)="playChange($event)" (remove)="playRemove($event)"
-      (update)="playUpdate($event)"></xh-play-pile>
+   ---------------Pile----------------
+   <xh-play-pile [cards]="[]" (add)="add($event)"
+      (change)="change($event)" (remove)="remove($event)"
+      (update)="update($event)"></xh-play-pile>
    ----------------------------------------
 
    <xh-player [player]="players[gameService.playerSessionId]" class="player-section"
-      (add)="playerAdd($event)" (change)="playerChange($event)"
-      (remove)="playerRemove($event)" (update)="playerUpdate($event)">
+      (add)="add($event)" (change)="change($event)"
+      (remove)="remove($event)" (update)="update($event)">
    </xh-player>
 </div>
 

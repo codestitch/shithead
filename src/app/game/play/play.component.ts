@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BaseComponent } from 'src/app/services/base-component';
-import { StateAction, Player } from '../services/models';
+import { StateAction, Player, Pile, PileEmit } from '../services/models';
 import { ActivatedRoute } from '@angular/router';
 import { GameService } from '../services';
 
@@ -37,44 +37,31 @@ export class PlayComponent extends BaseComponent {
       });
    }
 
-   setTrump() {
+   setTrump(trumps: string) {
       this.gameService.send({
          action: StateAction.TRUMP,
          data: {
-            cards: ''
+            cards: trumps
          }
       });
    }
 
-   playAdd(event) {
-      console.log('play Add', event);
+   add(event: PileEmit) {
+      console.log('Add', event);
    }
 
-   playChange(event) {
-      console.log('play Changed', event);
+   change(event: PileEmit) {
+      console.log('Changed', event);
    }
 
-   playRemove(event) {
-      console.log('play Removed', event);
+   remove(event: PileEmit) {
+      console.log('Removed', event);
    }
 
-   playUpdate(event) {
-      console.log('play Update', event);
-   }
-
-   playerAdd(event) {
-      console.log('Player Add', event);
-   }
-
-   playerChange(event) {
-      console.log('Player Changed', event);
-   }
-
-   playerRemove(event) {
-      console.log('Player Removed', event);
-   }
-
-   playerUpdate(event) {
-      console.log('Player Update', event);
+   update(event: PileEmit) {
+      console.log('Update', event);
+      if (event.pile === 'trump' && event.cards.length === 3) {
+         this.setTrump(event.cards.toString());
+      }
    }
 }

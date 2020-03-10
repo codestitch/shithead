@@ -1,8 +1,22 @@
-<!-- <xh-blind [faceDown]="player.blinds"></xh-blind> -->
+<div class="blind-section">
+   <img *ngFor="let blind of blinds" [src]="TEMP_BLIND" />
+</div>
 
-<xh-deck [cards]="hands" (cardsRemoved)="remove.emit($event)"
-   (cardsAdded)="add.emit($event)" (cardsUpdated)="update.emit($event)"
-   (selectionChanged)="change.emit($event)">
-</xh-deck>
+<div class="trump-section">
+   <xh-deck [cards]="trumps" [isTrump]="true" [isDisabled]="isTrumpComplete"
+      [cardPredicate]="trumpPredicate" (cardsRemoved)="removed($event, 'trump')"
+      (cardsAdded)="added($event, 'trump')"
+      (cardsUpdated)="updated($event, 'trump')"
+      (selectionChanged)="changed($event, 'trump')">
+   </xh-deck>
+</div>
+
+<div class="hand-section">
+   <xh-deck [cards]="hands" (cardsRemoved)="removed($event, 'hand')"
+      (cardsAdded)="added($event, 'hand')"
+      (cardsUpdated)="updated($event, 'hand')"
+      (selectionChanged)="changed($event, 'hand')">
+   </xh-deck>
+</div>
 
 NAME: {{ player?.name }}

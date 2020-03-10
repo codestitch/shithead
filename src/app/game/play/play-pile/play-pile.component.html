@@ -1,6 +1,8 @@
-<xh-deck [cards]="cards" (cardsRemoved)="remove.emit($event)"
-   (cardsAdded)="add.emit($event)" (cardsUpdated)="update.emit($event)"
-   (selectionChanged)="change.emit($event)">
+<xh-deck [cards]="cards"
+   (cardsRemoved)="remove.emit({cards: $event, pile: 'play'})"
+   (cardsAdded)="add.emit({cards: $event, pile: 'play'})"
+   (cardsUpdated)="update.emit({cards: $event, pile: 'play'})"
+   (selectionChanged)="change.emit({cards: $event, pile: 'play'})">
 
    <ng-template let-card>
       <div>{{ card }}</div>

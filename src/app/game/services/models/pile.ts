@@ -1,0 +1,1 @@
+export type Pile = 'hand' | 'trump' | 'blind' | 'dead' | 'draw' | 'play';

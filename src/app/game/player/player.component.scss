@@ -1,4 +1,19 @@
 :host {
    display: block;
    width: 100%;
+
+   .blind-section {
+      width: 100%;
+      position: absolute;
+      top: 10px;
+
+      img {
+         width: 7rem;
+         height: 7rem;
+      }
+   }
+
+   .trump-section {
+      height: 7rem;
+   }
 }

@@ -13,6 +13,10 @@
    }
 
    .card-showcase {
+      &.isTrump {
+         width: 6rem;
+      }
+      
       &.selected {
 
          > xh-card {

@@ -36,7 +36,7 @@ export class GameService extends BaseService {
 
                   room.onStateChange(state => {
                      console.log(
-                        '%c%cON STATE CHANGE ONCE:',
+                        '%cON STATE CHANGE ONCE:',
                         'color: green',
                         state
                      );
@@ -47,7 +47,7 @@ export class GameService extends BaseService {
                   });
 
                   room.onLeave(code => {
-                     console.log('%cON LEAVE', 'color: green', code);
+                     console.log('%cON LEAVE', 'color: orange', code);
                      this.leaveRoom();
                   });
 
@@ -56,7 +56,7 @@ export class GameService extends BaseService {
                   });
 
                   room.onError(message => {
-                     console.log('%cON ERROR', 'color: green', message);
+                     console.log('%cON ERROR', 'color: orange', message);
                   });
 
                   room.state.players.onChange = (player, sessionId) => {
@@ -76,7 +76,7 @@ export class GameService extends BaseService {
                   room.state.players.onRemove = (player, sessionId) => {
                      console.log(
                         '%cONREMOVE',
-                        'color: green',
+                        'color: orange',
                         player,
                         sessionId
                      );

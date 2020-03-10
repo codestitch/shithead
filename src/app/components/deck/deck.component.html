@@ -1,20 +1,26 @@
-<div class="card-container" cdkDropList cdkDropListOrientation="horizontal"
+<div class="card-container" cdkDropList 
+   cdkDropListOrientation="horizontal"
    [class.item-dragging]="dragging"
-   (cdkDropListDropped)="droppedIntoList($event)">
+   (cdkDropListDropped)="droppedIntoList($event)" 
+   [cdkDropListDisabled]="isDisabled"
+   [cdkDropListEnterPredicate]="cardPredicate">
 
-   <div cdkDrag class="card-showcase"
+   <div cdkDrag class="card-showcase" [class.isTrump]="isTrump"
       *ngFor="let card of cards; let index = index"
       [class.selected]="isSelected(index)"
       (cdkDragStarted)="dragStarted($event, index)" (cdkDragEnded)="dragEnded()"
       (cdkDragDropped)="dropped($event)" (click)="select($event, index)">
 
-      <div>{{ card.code }}</div>
+      <b>{{card}}</b>
       <xh-card [image]="TEMP_IMAGE"></xh-card>
       <ng-template cdkDragPreview>
          <div>
-            <xh-card *ngIf="indexSelections.length === 0" class="card-preview-image" [image]="TEMP_IMAGE"></xh-card>
-            <div class="card-preview-holder" *ngFor="let idx of indexSelections">
-               <xh-card class="card-preview-image" [image]="TEMP_IMAGE"></xh-card>
+            <xh-card *ngIf="indexSelections.length === 0"
+               class="card-preview-image" [image]="TEMP_IMAGE"></xh-card>
+            <div class="card-preview-holder"
+               *ngFor="let idx of indexSelections">
+               <xh-card class="card-preview-image" [image]="TEMP_IMAGE">
+               </xh-card>
             </div>
          </div>
       </ng-template>

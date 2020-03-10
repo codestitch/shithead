@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { CdkDragStart, DragRef, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { sumBy, get, pullAt } from 'lodash-es';
-import { CardDeck } from './card';
 
 @Component({
    selector: 'xh-deck',
@@ -20,8 +19,10 @@ import { CardDeck } from './card';
    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeckComponent {
-   @Input() cards: CardDeck[];
-   @Input() isDraggable: boolean = true;
+   @Input() cards: string[];
+   @Input() isDisabled: boolean = false;
+   @Input() isTrump: boolean = false;
+   @Input() cardPredicate: () => boolean = () => true;
    @Output() cardsRemoved = new EventEmitter<any[]>();
    @Output() cardsAdded = new EventEmitter<any[]>();
    @Output() cardsUpdated = new EventEmitter<any[]>();

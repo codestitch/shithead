@@ -5,6 +5,7 @@ import {
    EventEmitter,
    Input
 } from '@angular/core';
+import { PileEmit } from '../../services/models';
 
 @Component({
    selector: 'xh-play-pile',
@@ -13,10 +14,10 @@ import {
 })
 export class PlayPileComponent implements OnInit {
    @Input() cards: string[];
-   @Output() remove = new EventEmitter<string>();
-   @Output() add = new EventEmitter<string>();
-   @Output() update = new EventEmitter<string>();
-   @Output() change = new EventEmitter<string>();
+   @Output() remove = new EventEmitter<PileEmit>();
+   @Output() add = new EventEmitter<PileEmit>();
+   @Output() update = new EventEmitter<PileEmit>();
+   @Output() change = new EventEmitter<PileEmit>();
 
    TEMP_IMAGE =
       'https://www.flaticon.com/premium-icon/icons/svg/1911/1911305.svg';
