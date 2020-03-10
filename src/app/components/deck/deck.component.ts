@@ -1,35 +1,37 @@
 import {
    Component,
-   OnInit,
    Input,
    Output,
    EventEmitter,
    TemplateRef,
    ContentChild,
    ElementRef,
-   ChangeDetectorRef
+   ChangeDetectorRef,
+   ChangeDetectionStrategy
 } from '@angular/core';
 import { CdkDragStart, DragRef, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { sumBy, get, pullAt } from 'lodash-es';
+import { CardDeck } from './card';
 
 @Component({
-   selector: 'xh-hand',
-   templateUrl: './hand.component.html',
-   styleUrls: ['./hand.component.scss']
+   selector: 'xh-deck',
+   templateUrl: './deck.component.html',
+   styleUrls: ['./deck.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HandComponent {
-   @Input() cards: string[];
+export class DeckComponent {
+   @Input() cards: CardDeck[];
+   @Input() isDraggable: boolean = true;
    @Output() cardsRemoved = new EventEmitter<any[]>();
    @Output() cardsAdded = new EventEmitter<any[]>();
    @Output() cardsUpdated = new EventEmitter<any[]>();
    @Output() selectionChanged = new EventEmitter<any[]>();
    @ContentChild(TemplateRef, { static: false }) templateRef;
-   TEMP_IMAGE = 'https://www.flaticon.com/premium-icon/icons/svg/1911/1911305.svg';
+   TEMP_IMAGE =
+      'https://www.flaticon.com/premium-icon/icons/svg/1911/1911305.svg';
 
    dragging: DragRef = null;
    indexSelections: number[] = [];
-   private currentSelectionSpan: number[] = [];
-   private lastSingleSelection: number;
 
    constructor(private eRef: ElementRef, private cdRef: ChangeDetectorRef) {}
 
@@ -38,10 +40,8 @@ export class HandComponent {
       this.indexSelections = this.isSelected(index)
          ? this.indexSelections.filter(x => x !== index)
          : [...this.indexSelections, index];
-
-      this.selectionChanged.emit(
-         this.indexSelections.map(i => this.cards[i])
-      );
+         
+      this.selectionChanged.emit(this.indexSelections.map(i => this.cards[i]));
    }
 
    isSelected(index: number): boolean {
@@ -50,7 +50,9 @@ export class HandComponent {
 
    dragStarted(ev: CdkDragStart, index: number): void {
       this.dragging = ev.source._dragRef;
-      const indices = this.indexSelections.length ? this.indexSelections : [index];
+      const indices = this.indexSelections.length
+         ? this.indexSelections
+         : [index];
       ev.source.data = {
          indices,
          values: indices.map(i => this.cards[i]),
@@ -104,7 +106,7 @@ export class HandComponent {
       }
       this.cards.splice(spliceIntoIndex, 0, ...data.values);
       this.indexSelections = [];
-      
+
       if (ev.previousContainer !== ev.container) {
          this.cardsAdded.emit(data.values);
       }
@@ -115,8 +117,6 @@ export class HandComponent {
    clearSelection() {
       if (this.indexSelections.length) {
          this.indexSelections = [];
-         this.currentSelectionSpan = [];
-         this.lastSingleSelection = null;
          this.selectionChanged.emit(
             this.indexSelections.map(i => this.cards[i])
          );

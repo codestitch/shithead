@@ -22,10 +22,9 @@ export class CreateComponent implements OnInit {
    ngOnInit(): void {}
 
    create() {
-      this.roomApi.create(this.room).subscribe(id => {
-         console.log(id);
-         this.router.navigate([`/game/play/creator`]);
-      });
+      this.roomApi
+         .create(this.room)
+         .subscribe(_ => this.router.navigate([`/game/play/creator`]));
    }
 
    choose(ev) {

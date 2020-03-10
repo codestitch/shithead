@@ -1,0 +1,9 @@
+<xh-deck [cards]="cards" (cardsRemoved)="remove.emit($event)"
+   (cardsAdded)="add.emit($event)" (cardsUpdated)="update.emit($event)"
+   (selectionChanged)="change.emit($event)">
+
+   <ng-template let-card>
+      <div>{{ card }}</div>
+      <xh-card [image]="TEMP_IMAGE"></xh-card>
+   </ng-template>
+</xh-deck>

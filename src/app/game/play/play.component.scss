@@ -1,5 +1,8 @@
 :host {
    display: block;
+   position: relative;
+   height: 100%;
+   width: 100%;
 
    .opponent-section {
       display: block;
@@ -9,5 +12,7 @@
    .player-section {
       display: block;
       border: 1px solid green;
+      position: absolute;
+      bottom: 0;
    }
 }

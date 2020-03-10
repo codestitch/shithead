@@ -1,48 +1,41 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Player } from '../services/models/player-attribute';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Player } from '../services/models';
+import { BaseComponent } from 'src/app/services/base-component';
+import { CardDeck } from 'src/app/components/deck/card';
+import { filter } from 'rxjs/operators';
 
 @Component({
    selector: 'xh-player',
    templateUrl: './player.component.html',
    styleUrls: ['./player.component.scss']
 })
-export class PlayerComponent implements OnInit {
-   @Input() player: Player;
+export class PlayerComponent extends BaseComponent {
+   @Input() player: Player = new Player('', '');
+   @Output() remove = new EventEmitter<string>();
+   @Output() add = new EventEmitter<string>();
+   @Output() update = new EventEmitter<string>();
+   @Output() change = new EventEmitter<string>();
+
+   hands: CardDeck[] = [];
+
+   TEMP_IMAGE =
+      'https://www.flaticon.com/premium-icon/icons/svg/1911/1911305.svg';
+
    events = [];
 
-   constructor() {}
+   constructor() {
+      super();
 
-   ngOnInit(): void {}
-
-   clearEvents(): void {
-      this.events = [];
-   }
-
-   itemsRemoved(ev, list) {
-      this.events.push({
-         text: `itemsRemoved from ${list}`,
-         ev: JSON.stringify(ev)
-      });
-   }
-
-   itemsAdded(ev, list) {
-      this.events.push({
-         text: `itemsAdded to ${list}`,
-         ev: JSON.stringify(ev)
-      });
-   }
-
-   itemsUpdated(ev, list) {
-      this.events.push({
-         text: `itemsUpdated in ${list}`,
-         ev: JSON.stringify(ev)
-      });
-   }
-
-   selectionChanged(ev, list) {
-      this.events.push({
-         text: `selectionChanged in ${list}`,
-         ev: JSON.stringify(ev)
+      this.onChanges$.pipe(filter(x => !!x.player)).subscribe(c => {
+         if (this.player && this.player.hands) {
+            this.hands = this.player.hands.map(
+               x =>
+                  <CardDeck>{
+                     code: x,
+                     isSelected: false
+                  }
+            );
+         }
       });
    }
 }

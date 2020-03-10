@@ -23,9 +23,13 @@ export class Player {
       _hands: string[] = [],
       _blinds: string[] = [],
       _trumps: string[] = []
-   ) {
+   ): Player {
       this.hands = _hands || [];
       this.blinds = _blinds || [];
       this.trumps = _trumps || [];
+
+      return Object.assign(new Player(null, null), {
+         ...this
+      });
    }
 }

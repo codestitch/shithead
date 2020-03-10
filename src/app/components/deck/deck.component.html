@@ -8,16 +8,14 @@
       (cdkDragStarted)="dragStarted($event, index)" (cdkDragEnded)="dragEnded()"
       (cdkDragDropped)="dropped($event)" (click)="select($event, index)">
 
-      <ng-container
-         *ngTemplateOutlet="templateRef; context: { $implicit: card, card: card, index: index }">
-      </ng-container>
+      <div>{{ card.code }}</div>
+      <xh-card [image]="TEMP_IMAGE"></xh-card>
       <ng-template cdkDragPreview>
-         <xh-card *ngIf="indexSelections.length === 0"
-            class="card-preview-image" [image]="TEMP_IMAGE"></xh-card>
-         <div class="card-preview-holder" *ngFor="let idx of indexSelections">
-            <xh-card class="card-preview-image" [image]="TEMP_IMAGE">
-            </xh-card>
-            {{ card }}
+         <div>
+            <xh-card *ngIf="indexSelections.length === 0" class="card-preview-image" [image]="TEMP_IMAGE"></xh-card>
+            <div class="card-preview-holder" *ngFor="let idx of indexSelections">
+               <xh-card class="card-preview-image" [image]="TEMP_IMAGE"></xh-card>
+            </div>
          </div>
       </ng-template>
    </div>

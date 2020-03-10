@@ -3,10 +3,22 @@
    </xh-player>
 </div>
 
-<div class="status-section">
-   <div *ngIf="!isCreator">Waiting for Dealer to start</div>
-   <button *ngIf="isCreator" (click)="start()">Start</button>
+<div cdkDropListGroup>
+   <div class="status-section">
+      <div *ngIf="!isCreator">Waiting for Dealer to start</div>
+      <button *ngIf="isCreator" (click)="start()">Start</button>
+   </div>
+   
+   ---------------Play Pile----------------
+   <xh-play-pile [cards]="playPile" (add)="playAdd($event)"
+      (change)="playChange($event)" (remove)="playRemove($event)"
+      (update)="playUpdate($event)"></xh-play-pile>
+   ----------------------------------------
+
+   <xh-player [player]="players[ownSessionId]" class="player-section"
+      (add)="playerAdd($event)" (change)="playerChange($event)"
+      (remove)="playerRemove($event)" (update)="playerUpdate($event)">
+   </xh-player>
 </div>
 
-<xh-player [player]="players[ownSessionId]" class="player-section"></xh-player>
 <button (click)="draw()">Draw</button>
