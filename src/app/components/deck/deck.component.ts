@@ -23,13 +23,12 @@ export class DeckComponent {
    @Input() isDisabled: boolean = false;
    @Input() isTrump: boolean = false;
    @Input() cardPredicate: () => boolean = () => true;
+   @Input() isSmall = false;
    @Output() cardsRemoved = new EventEmitter<any[]>();
    @Output() cardsAdded = new EventEmitter<any[]>();
    @Output() cardsUpdated = new EventEmitter<any[]>();
    @Output() selectionChanged = new EventEmitter<any[]>();
    @ContentChild(TemplateRef, { static: false }) templateRef;
-   TEMP_IMAGE =
-      'https://www.flaticon.com/premium-icon/icons/svg/1911/1911305.svg';
 
    dragging: DragRef = null;
    indexSelections: number[] = [];

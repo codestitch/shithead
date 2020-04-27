@@ -37,7 +37,7 @@ export class PlayComponent extends BaseComponent {
       });
    }
 
-   setTrump(trumps: string) {
+   setTrump(trumps: string[]) {
       this.gameService.send({
          action: StateAction.TRUMP,
          data: {
@@ -61,7 +61,7 @@ export class PlayComponent extends BaseComponent {
    update(event: PileEmit) {
       console.log('Update', event);
       if (event.pile === 'trump' && event.cards.length === 3) {
-         this.setTrump(event.cards.toString());
+         this.setTrump(event.cards);
       }
    }
 }

@@ -3,7 +3,6 @@
 .card-container {
    display: flex;
    position: relative;
-   margin: 3% auto;
    height: 100%;
 
    &:after {
@@ -16,11 +15,16 @@
       &.isTrump {
          width: 6rem;
       }
-      
-      &.selected {
 
+      &.selected {
          > xh-card {
             top: -1rem;
+         }
+      }
+
+      xh-card {
+         &.small {
+            width: 5rem;
          }
       }
    }
@@ -51,7 +55,7 @@
    }
 
    .cdk-drag-placeholder {
-     opacity: 0;
+      opacity: 0;
    }
 }
 

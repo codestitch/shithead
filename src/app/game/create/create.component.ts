@@ -24,7 +24,7 @@ export class CreateComponent implements OnInit {
    create() {
       this.roomApi
          .create(this.room)
-         .subscribe(_ => this.router.navigate([`/game/play/creator`]));
+         .subscribe(id => this.router.navigate([`/game/play/${id}/creator`]));
    }
 
    choose(ev) {

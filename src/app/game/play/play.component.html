@@ -1,13 +1,14 @@
-<div class="opponent-section">
+<!-- <div class="opponent-section">
    <xh-player *ngFor="let id of gameService.opponentSessionIds" [player]="players[id]">
    </xh-player>
-</div>
+</div> -->
 
-<div cdkDropListGroup>
+<!-- <div cdkDropListGroup>
    <div class="status-section">
       <div *ngIf="!isCreator">Waiting for Dealer to start</div>
       <button *ngIf="isCreator" (click)="start()">Start</button>
    </div>
+   <button (click)="draw()">Draw</button>
 
    ---------------Pile----------------
    <xh-play-pile [cards]="[]" (add)="add($event)"
@@ -15,10 +16,34 @@
       (update)="update($event)"></xh-play-pile>
    ----------------------------------------
 
-   <xh-player [player]="players[gameService.playerSessionId]" class="player-section"
-      (add)="add($event)" (change)="change($event)"
-      (remove)="remove($event)" (update)="update($event)">
-   </xh-player>
+   <div class="footer-area">
+      <div class="left-action"></div>   
+      
+      <div class="right-action"></div>
+   </div>
+</div> -->
+<div class="opponent-section">
+
 </div>
 
-<button (click)="draw()">Draw</button>
+<div class="game-section" cdkDropListGroup>
+   <div class="game-table">
+      <div class="status-section">
+         <div *ngIf="!isCreator">Waiting for Dealer to start</div>
+         <button *ngIf="isCreator" (click)="start()">Start</button>
+      </div>
+   </div>
+
+   <div class="player-section">
+      <div class="left-action">
+      </div>
+      <div class="main-action">
+         <xh-player [player]="players[gameService.playerSessionId]"
+            (add)="add($event)" (change)="change($event)"
+            (remove)="remove($event)" (update)="update($event)">
+         </xh-player>
+      </div>
+      <div class="right-action">
+      </div>
+   </div>
+</div>

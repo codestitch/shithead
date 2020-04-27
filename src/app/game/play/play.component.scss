@@ -7,12 +7,24 @@
    .opponent-section {
       display: block;
       border: 1px solid red;
+      height: 10rem;
    }
 
    .player-section {
-      display: block;
-      border: 1px solid green;
+      display: flex;
       position: absolute;
       bottom: 0;
+      width: 100%;
+      justify-content: space-around;
+
+      .left-action {
+         display: block;
+         width: 5rem;
+      }
+
+      .right-action {
+         display: block;
+         width: 5rem;
+      }
    }
 }

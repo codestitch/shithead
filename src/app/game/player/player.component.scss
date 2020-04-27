@@ -1,19 +1,19 @@
 :host {
-   display: block;
-   width: 100%;
+   display: flex;
+   flex-flow: column;
 
-   .blind-section {
+   .blind-trump-section {
+      display: block;
+      height: 10rem;
       width: 100%;
-      position: absolute;
-      top: 10px;
-
-      img {
-         width: 7rem;
-         height: 7rem;
-      }
+      position: relative;
    }
 
    .trump-section {
-      height: 7rem;
+      display: inline;
+      z-index: 99999;
+      position: absolute;
+      top: 0;
+      left: 0.7rem;
    }
 }

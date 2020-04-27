@@ -2,9 +2,13 @@ import { Injectable } from '@angular/core';
 import { BaseService } from 'src/app/services/base-service';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { RoomService } from './room.service';
-import { Player, RoomPlayerState, RoomMessageState } from './models';
+import {
+   Player,
+   RoomPlayerState,
+   RoomMessageState,
+   StateAction
+} from './models';
 import { shareReplay, debounceTime, tap, map } from 'rxjs/operators';
-import { ToArray } from 'src/app/services/util';
 import { Room } from 'colyseus.js';
 
 @Injectable()
@@ -61,7 +65,7 @@ export class GameService extends BaseService {
 
                   room.state.players.onChange = (player, sessionId) => {
                      console.log(
-                        '%cONCHANGE',
+                        '%cONCHANGE-PLAYER',
                         'color: green',
                         player,
                         sessionId
@@ -69,17 +73,43 @@ export class GameService extends BaseService {
                      this.updatePlayer(player, sessionId);
                   };
 
-                  room.state.players.onAdd = (player, sessionId) => {
-                     console.log('%cONADD', 'color: green', player, sessionId);
+                  room.state.players.onAdd = (
+                     player: RoomPlayerState,
+                     sessionId
+                  ) => {
+                     console.log(
+                        '%cONADD-PLAYER',
+                        'color: green',
+                        player,
+                        sessionId
+                     );
+
+                     const players = this._players$.getValue();
+                     if (!players[sessionId]) {
+                        this.opponentSessionIds = [
+                           ...this.opponentSessionIds,
+                           sessionId
+                        ];
+                        players[sessionId] = new Player(sessionId, player);
+
+                        this._players$.next(players);
+                     }
                   };
 
                   room.state.players.onRemove = (player, sessionId) => {
                      console.log(
-                        '%cONREMOVE',
+                        '%cONREMOVE-PLAYER',
                         'color: orange',
                         player,
                         sessionId
                      );
+
+                     this.opponentSessionIds = this.opponentSessionIds.filter(
+                        x => x !== sessionId
+                     );
+                     const players = this._players$.getValue();
+                     delete players[sessionId];
+                     this._players$.next(players);
                   };
                } else this.roomService.reconnect();
             }),
@@ -93,31 +123,26 @@ export class GameService extends BaseService {
    }
 
    send(message: RoomMessageState) {
-      this.gameRoom$.pipe(tap(room => room.send(message))).subscribe();
+      this.gameRoom$
+         .pipe(
+            tap((room: Room) => {
+               room.send(message);
+            })
+         )
+         .subscribe();
    }
 
-   setPlayer(state: RoomPlayerState, sessionId: string) {
+   setPlayer(player: RoomPlayerState, sessionId: string) {
       this.playerSessionId = sessionId;
       const players = this._players$.getValue();
-      players[sessionId] = new Player(
-         sessionId,
-         state.name,
-         state.hands,
-         state.blinds,
-         state.trumps
-      );
+      players[sessionId] = new Player(sessionId, player);
+      players[sessionId];
       this._players$.next(players);
    }
 
    updatePlayer(player: RoomPlayerState, sessionId: string) {
       const players = this._players$.getValue();
-      players[sessionId] = new Player(
-         sessionId,
-         name,
-         player.hands,
-         player.blinds,
-         player.trumps
-      );
+      players[sessionId] = new Player(sessionId, player);
       this._players$.next(players);
    }
 
@@ -125,13 +150,7 @@ export class GameService extends BaseService {
       const players = this._players$.getValue();
       if (!players[sessionId]) {
          this.opponentSessionIds = [...this.opponentSessionIds, sessionId];
-         players[sessionId] = new Player(
-            sessionId,
-            player.name,
-            player.hands,
-            player.blinds,
-            player.trumps
-         );
+         players[sessionId] = new Player(sessionId, player);
          this._players$.next(players);
       }
    }
@@ -151,13 +170,15 @@ export class GameService extends BaseService {
       localStorage.setItem('room', newStatus);
    }
 
-   createExistingPlayers(playerList: { [id: string]: any }) {
+   createExistingPlayers(playerList: { [id: string]: RoomPlayerState }) {
       const players = this._players$.getValue();
       const existingIds = [...this.opponentSessionIds, this.playerSessionId];
       const ids = Object.keys(playerList).filter(x => !existingIds.includes(x));
       ids.forEach(id => {
-         players[id] = new Player(id, playerList[id].name);
+         const p: RoomPlayerState = playerList[id];
+         players[id] = new Player(id, p);
       });
+      this._players$.next(players);
       this.opponentSessionIds = [...this.opponentSessionIds, ...ids];
    }
 }

@@ -27,15 +27,8 @@ export class RoomService extends BaseService {
       const promise = this.client.create(environment.roomName, room);
       return from(promise).pipe(
          map(room => {
-            const roomSession = {
-               id: room.id,
-               sessionId: room.sessionId,
-               isActive: true
-            };
-            localStorage.setItem('room', JSON.stringify(roomSession));
-            this._room$.next(room);
-
-            return room.id;
+            this.setLocalState(room);
+            return room.sessionId;
          }),
          shareReplay(1)
       );
@@ -44,8 +37,11 @@ export class RoomService extends BaseService {
    joinById(roomId: string): Observable<string> {
       const promise = this.client.joinById(roomId);
       return from(promise).pipe(
-         tap(room => this._room$.next(room)),
-         map(room => room.id),
+         tap(room => {
+            this.setLocalState(room);
+            this._room$.next(room);
+         }),
+         map(room => room.sessionId),
          shareReplay(1)
       );
    }
@@ -56,8 +52,11 @@ export class RoomService extends BaseService {
          playerName
       });
       return from(promise).pipe(
-         tap(room => this._room$.next(room)),
-         map(room => room.id),
+         tap(room => {
+            this.setLocalState(room);
+            this._room$.next(room);
+         }),
+         map(room => room.sessionId),
          shareReplay(1)
       );
    }
@@ -79,5 +78,15 @@ export class RoomService extends BaseService {
          localStorage.setItem('room', JSON.stringify(newStatus));
          this._room$.next(room);
       });
+   }
+
+   private setLocalState(room: Colyseus.Room) {
+      const roomSession = {
+         id: room.id,
+         sessionId: room.sessionId,
+         isActive: true
+      };
+      localStorage.setItem('room', JSON.stringify(roomSession));
+      this._room$.next(room);
    }
 }
