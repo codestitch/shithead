@@ -31,6 +31,8 @@ export class GameService extends BaseService {
             debounceTime(100),
             map((room: Room) => {
                if (room) {
+                  console.log('%cRoom', 'color: green', room);
+                  
                   this.setPlayer(
                      room.state.players[room.sessionId],
                      room.sessionId
@@ -138,6 +140,8 @@ export class GameService extends BaseService {
       players[sessionId] = new Player(sessionId, player);
       players[sessionId];
       this._players$.next(players);
+
+      console.log('%cPlayer', 'color: green', this._players$.value);
    }
 
    updatePlayer(player: RoomPlayerState, sessionId: string) {
@@ -180,5 +184,7 @@ export class GameService extends BaseService {
       });
       this._players$.next(players);
       this.opponentSessionIds = [...this.opponentSessionIds, ...ids];
+
+      console.log('%cExisting Player', 'color: blue', this._players$.value);
    }
 }

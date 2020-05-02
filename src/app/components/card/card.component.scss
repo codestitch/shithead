@@ -3,7 +3,9 @@
 :host {
    @include card;
 
-   .card-image {
-      width: 7rem;
+   width: 2.5rem;
+
+   &.isBig {
+      width: 4rem;
    }
 }

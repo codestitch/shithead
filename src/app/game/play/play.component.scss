@@ -4,6 +4,26 @@
    height: 100%;
    width: 100%;
 
+   .game-table {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      top: 0px;
+      position: absolute;
+
+      .holder {
+         display: flex;
+         height: 100%;
+
+         xh-svg-icon {
+            margin: auto;
+            width: 80%;
+            padding: 10px;
+            display: inline-flex;
+         }
+      }
+   }
+
    .opponent-section {
       display: block;
       border: 1px solid red;

@@ -18,6 +18,9 @@ export class SvgIconComponent extends BaseComponent {
    @Input() name: string;
    @Input() category: IconCategory;
    @Input() title: string;
+   @Input() set unit(val: '%' | 'rem') {
+      this.svgService.setUnit(val);
+   }
 
    constructor(
       private el: ElementRef<HTMLElement>,

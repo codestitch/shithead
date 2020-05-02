@@ -23,7 +23,7 @@ export class DeckComponent {
    @Input() isDisabled: boolean = false;
    @Input() isTrump: boolean = false;
    @Input() cardPredicate: () => boolean = () => true;
-   @Input() isSmall = false;
+   @Input() isBig = false;
    @Output() cardsRemoved = new EventEmitter<any[]>();
    @Output() cardsAdded = new EventEmitter<any[]>();
    @Output() cardsUpdated = new EventEmitter<any[]>();

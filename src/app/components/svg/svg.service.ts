@@ -24,6 +24,7 @@ export class SvgService {
    private value: string;
    private name: string;
    private size: number = 1.8;
+   private unit: '%' | 'rem' = 'rem';
    private type: 'icons' | 'images' = 'icons';
    private category: IconCategory;
    private title: string = '';
@@ -74,6 +75,11 @@ export class SvgService {
 
    setSize(size: number) {
       this.size = size;
+      this.changes$.next();
+   }
+
+   setUnit(unit: '%' | 'rem') {
+      this.unit = unit;
       this.changes$.next();
    }
 
@@ -143,7 +149,7 @@ export class SvgService {
       if (!svg) {
          return;
       }
-      svg.setAttribute('width', size + 'rem');
-      svg.setAttribute('height', size + 'rem');
+      svg.setAttribute('width', `${size}${this.unit}`);
+      svg.setAttribute('height', `${size}${this.unit}`);
    }
 }

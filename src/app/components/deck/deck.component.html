@@ -11,14 +11,14 @@
       (cdkDragStarted)="dragStarted($event, index)" (cdkDragEnded)="dragEnded()"
       (cdkDragDropped)="dropped($event)" (click)="select($event, index)">
 
-      <xh-card [class.small]="isSmall" class="card-on-display" [code]="card"></xh-card>
+      <xh-card [isBig]="isBig" class="card-on-display" [code]="card"></xh-card>
       <ng-template cdkDragPreview>
          <div>
             <xh-card *ngIf="indexSelections.length === 0"
-               class="card-preview-image" [code]="card"></xh-card>
+               class="card-preview-image" [code]="card" [isBig]="isBig"></xh-card>
             <div class="card-preview-holder"
                *ngFor="let idx of indexSelections">
-               <xh-card class="card-preview-image" [code]="card">
+               <xh-card class="card-preview-image" [code]="card" [isBig]="isBig">
                </xh-card>
             </div>
          </div>

@@ -9,7 +9,7 @@ import { filter } from 'rxjs/operators';
    styleUrls: ['./opponent.component.scss']
 })
 export class OpponentComponent extends BaseComponent {
-   @Input() player: Player = new Player();
+   @Input() player: Player;
    hands: string[] = [];
    trumps: string[] = [];
    blinds: string[] = [];

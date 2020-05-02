@@ -1,33 +1,16 @@
-<!-- <div class="opponent-section">
-   <xh-player *ngFor="let id of gameService.opponentSessionIds" [player]="players[id]">
-   </xh-player>
-</div> -->
-
-<!-- <div cdkDropListGroup>
-   <div class="status-section">
-      <div *ngIf="!isCreator">Waiting for Dealer to start</div>
-      <button *ngIf="isCreator" (click)="start()">Start</button>
+<div class="game-table">
+   <div class="holder">
+      <xh-svg-icon [value]="table" size="100" unit="%"></xh-svg-icon>
    </div>
-   <button (click)="draw()">Draw</button>
-
-   ---------------Pile----------------
-   <xh-play-pile [cards]="[]" (add)="add($event)"
-      (change)="change($event)" (remove)="remove($event)"
-      (update)="update($event)"></xh-play-pile>
-   ----------------------------------------
-
-   <div class="footer-area">
-      <div class="left-action"></div>   
-      
-      <div class="right-action"></div>
-   </div>
-</div> -->
-<div class="opponent-section">
-
 </div>
-
+<div class="opponent-section">
+   <!-- <xh-opponent *ngFor="let id of gameService.opponentSessionIds; index as i;"
+      [player]="players[id]" class="position-{{i}}"></xh-opponent> -->
+   <xh-opponent *ngFor="let mock of MOCK_OPPONENT; index as i;"
+      [player]="mock" class="position-{{i}}"></xh-opponent>
+</div>
 <div class="game-section" cdkDropListGroup>
-   <div class="game-table">
+   <div class="game-actions">
       <div class="status-section">
          <div *ngIf="!isCreator">Waiting for Dealer to start</div>
          <button *ngIf="isCreator" (click)="start()">Start</button>

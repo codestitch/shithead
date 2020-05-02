@@ -74,6 +74,9 @@ export class CardComponent extends BaseComponent {
    @Input() code: string;
    @Input() image: string;
 
+   @HostBinding('class.isBig')
+   @Input() isBig = false;
+
    selectedCard: string;
    pool = [
       { code: '0C', value: card0C },

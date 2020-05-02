@@ -9,6 +9,8 @@ import { DeckModule } from 'src/app/components/deck/deck.module';
 import { CardModule } from 'src/app/components/card/card.module';
 import { MultiDragModule } from 'src/app/components/multi-drag/multi-drag.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { SvgModule } from 'src/app/components/svg/svg.module';
+import { OpponentModule } from '../opponent/opponent.module';
 
 const routes: Routes = [
    {
@@ -24,10 +26,12 @@ const routes: Routes = [
       RouterModule.forChild(routes),
       FormsModule,
       PlayerModule,
+      OpponentModule,
       DeckModule,
       CardModule,
       DragDropModule,
-      MultiDragModule
+      MultiDragModule,
+      SvgModule,
    ]
 })
 export class PlayModule {}

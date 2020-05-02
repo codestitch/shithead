@@ -1,6 +1,6 @@
 <div class="blind-trump-section">
    <div class="trump-section">
-      <xh-deck [cards]="trumps" [isTrump]="true" isSmall="true"
+      <xh-deck [cards]="trumps" [isTrump]="true"
          [isDisabled]="isTrumpComplete" [cardPredicate]="trumpPredicate"
          (cardsRemoved)="removed($event, 'trump')"
          (cardsAdded)="added($event, 'trump')"
@@ -12,7 +12,7 @@
 </div>
 
 <div class="hand-section">
-   <xh-deck [cards]="hands" (cardsRemoved)="removed($event, 'hand')"
+   <xh-deck isBig="true" [cards]="hands" (cardsRemoved)="removed($event, 'hand')"
       (cardsAdded)="added($event, 'hand')"
       (cardsUpdated)="updated($event, 'hand')"
       (selectionChanged)="changed($event, 'hand')">

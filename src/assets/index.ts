@@ -53,5 +53,6 @@ export { cardQC } from './cards/QC-svg';
 export { cardQD } from './cards/QD-svg';
 export { cardQH } from './cards/QH-svg';
 export { cardQS } from './cards/QS-svg';
+export { cardtable } from './cards/table-svg';
 export { cardX1 } from './cards/X1-svg';
 export { cardX2 } from './cards/X2-svg';

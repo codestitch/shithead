@@ -1,0 +1,30 @@
+:host {
+   display: block;
+   width: 8rem;
+   height: 6rem;
+   position: absolute;
+
+   .opponent-name {
+      text-align: center;
+   }
+
+   &.position-0 {
+      top: 3rem;
+      left: 10rem;
+   }
+
+   &.position-1 {
+      top: 3rem;
+      left: 18rem;
+   }
+
+   &.position-2 {
+      top: 3rem;
+      left: 26rem;
+   }
+
+   &.position-3 {
+      top: 3rem;
+      left: 34rem;
+   }
+}
