@@ -14,7 +14,8 @@ export class CreateComponent implements OnInit {
       deckCount: 1,
       hasJoker: false,
       maxPlayer: 4,
-      playerName: 'Amazing Creator'
+      playerName: 'Amazing Creator',
+      hasStarted: false
    };
 
    constructor(private router: Router, private roomApi: RoomService) {}

@@ -4,4 +4,5 @@ export interface RoomMetadata {
    deckCount: number;
    maxPlayer: number;
    playerName: string;
+   hasStarted: boolean;
 }

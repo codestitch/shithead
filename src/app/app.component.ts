@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { ScreensizeService } from './services/screensize.service';
 
 @Component({
    selector: 'app-root',
@@ -9,16 +10,22 @@ import { Component, HostListener } from '@angular/core';
 })
 export class AppComponent {
    title = 'Xhead';
-   public innerWidth: any;
-   constructor() {}
-   ngOnInit() {
-      this.innerWidth = window.innerWidth;
-      console.log(this.innerWidth);
+   constructor(private screenService: ScreensizeService) {}
+   ngOnInit() {}
+
+   ngAfterViewInit() {
+      this.detectScreenSize();
    }
 
    @HostListener('window:resize', ['$event'])
    onResize(event) {
-      this.innerWidth = window.innerWidth;
-      console.log(this.innerWidth);
+      this.detectScreenSize();
+   }
+
+   private detectScreenSize() {
+      this.screenService.onResize({
+         width: window.innerWidth,
+         height: window.innerHeight
+      });
    }
 }

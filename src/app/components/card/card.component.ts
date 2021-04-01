@@ -141,7 +141,6 @@ export class CardComponent extends BaseComponent {
       super();
 
       this.onChanges$.pipe(filter(c => !!c && !!c.code)).subscribe(change => {
-         console.log('rending card:', this.code);
          if (this.code === 'ZD') {
             this.code = '3D'
          } else if (this.code === 'ZH') {

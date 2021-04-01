@@ -6,17 +6,27 @@ import {
    Player,
    RoomPlayerState,
    RoomMessageState,
-   StateAction
-} from './models';
-import { shareReplay, debounceTime, tap, map } from 'rxjs/operators';
+   StateAction,
+   RoomMetadata
+} from '../models';
+import {
+   shareReplay,
+   debounceTime,
+   tap,
+   map,
+   takeUntil,
+   take
+} from 'rxjs/operators';
 import { Room } from 'colyseus.js';
+import { RoomState } from '../models/room-state';
+import { RoomStatePlayer } from '../models/room-state-player';
 
 @Injectable()
 export class GameService extends BaseService {
    playerSessionId: string;
    opponentSessionIds: string[] = [];
    players$: Observable<{ [id: string]: Player }>;
-   gameRoom$: Observable<any>;
+   game: RoomMetadata;
 
    private _players$ = new BehaviorSubject<{ [id: string]: Player }>({});
 
@@ -25,14 +35,14 @@ export class GameService extends BaseService {
 
       this.players$ = this._players$.asObservable();
 
-      this.gameRoom$ = this.roomService.room$;
-      this.gameRoom$
+      this.roomService.room$
          .pipe(
             debounceTime(100),
             map((room: Room) => {
                if (room) {
                   console.log('%cRoom', 'color: green', room);
-                  
+
+                  this.game = room.state.game;
                   this.setPlayer(
                      room.state.players[room.sessionId],
                      room.sessionId
@@ -40,12 +50,23 @@ export class GameService extends BaseService {
 
                   this.createExistingPlayers(room.state.players.toJSON());
 
-                  room.onStateChange(state => {
+                  room.onStateChange((state: RoomState) => {
                      console.log(
                         '%cON STATE CHANGE ONCE:',
                         'color: green',
                         state
                      );
+
+                     const currentTurn = this._players$.value[
+                        this.checkCurrentPlayer(state)
+                     ];
+                     console.log(
+                        '%c Currently Playing is',
+                        'color: green',
+                        currentTurn
+                     );
+
+                     debugger;
                   });
 
                   room.onStateChange.once(state => {
@@ -124,24 +145,40 @@ export class GameService extends BaseService {
       });
    }
 
+   checkCurrentPlayer(state: RoomState): string {
+      const result = Object.keys(state.players).filter(
+         pid => state.players[pid].isTurn
+      );
+      return result.length === 1 ? result[0] : null;
+   }
+
    send(message: RoomMessageState) {
-      this.gameRoom$
-         .pipe(
-            tap((room: Room) => {
-               room.send(message);
-            })
-         )
-         .subscribe();
+      this.roomService.room$.pipe(take(1)).subscribe(room => {
+         if (
+            message.action !== StateAction.StartGame &&
+            !this.game.hasStarted
+         ) {
+            return;
+         }
+
+         console.log('SENDING MESSAGE:', message);
+         room.send(message);
+      });
    }
 
    setPlayer(player: RoomPlayerState, sessionId: string) {
       this.playerSessionId = sessionId;
+
       const players = this._players$.getValue();
       players[sessionId] = new Player(sessionId, player);
       players[sessionId];
       this._players$.next(players);
 
-      console.log('%cPlayer', 'color: green', this._players$.value);
+      console.log(
+         '%c Current Player',
+         'color: green',
+         this._players$.value[sessionId]
+      );
    }
 
    updatePlayer(player: RoomPlayerState, sessionId: string) {
@@ -184,7 +221,9 @@ export class GameService extends BaseService {
       });
       this._players$.next(players);
       this.opponentSessionIds = [...this.opponentSessionIds, ...ids];
-
-      console.log('%cExisting Player', 'color: blue', this._players$.value);
+      const enemy = Object.keys(this._players$.value)
+         .filter(x => this.opponentSessionIds.includes(x))
+         .map(x => this._players$.value[x]);
+      console.log('%cExisting Player', 'color: blue', ...enemy);
    }
 }

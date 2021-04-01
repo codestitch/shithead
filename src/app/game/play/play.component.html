@@ -1,19 +1,19 @@
+<button *ngIf="isCreator" (click)="start()">Start</button>
+<div class="opponent-section">
+   <xh-opponent *ngFor="let id of gameService.opponentSessionIds; index as i;"
+      [player]="players[id]" class="position-{{i}}"></xh-opponent>
+   <!-- <xh-opponent *ngFor="let mock of MOCK_OPPONENT; index as i;" [player]="mock"
+      class="position-{{i}}"></xh-opponent> -->
+</div>
 <div class="game-table">
-   <div class="holder">
+   <div class="table-element" #tableEl>
       <xh-svg-icon [value]="table" size="100" unit="%"></xh-svg-icon>
    </div>
-</div>
-<div class="opponent-section">
-   <!-- <xh-opponent *ngFor="let id of gameService.opponentSessionIds; index as i;"
-      [player]="players[id]" class="position-{{i}}"></xh-opponent> -->
-   <xh-opponent *ngFor="let mock of MOCK_OPPONENT; index as i;"
-      [player]="mock" class="position-{{i}}"></xh-opponent>
 </div>
 <div class="game-section" cdkDropListGroup>
    <div class="game-actions">
       <div class="status-section">
-         <div *ngIf="!isCreator">Waiting for Dealer to start</div>
-         <button *ngIf="isCreator" (click)="start()">Start</button>
+         <div>{{ stateMessage$ | async }}</div>
       </div>
    </div>
 

@@ -1,12 +1,32 @@
 <div class="card-container" cdkDropList 
    cdkDropListOrientation="horizontal"
+   (cdkDropListDropped)="droppedIntoList($event)" 
+   [cdkDropListDisabled]="isDisabled"
+   [cdkDropListEnterPredicate]="cardPredicate">
+
+   <div cdkDrag 
+      class="card-box"
+      [class.isTrump]="isTrump"
+      *ngFor="let card of cards; let index = index"
+      (cdkDragStarted)="dragStarted($event, index)" (cdkDragEnded)="dragEnded()"
+      (cdkDragDropped)="dropped($event)" (click)="select($event, index)"
+      >
+      <xh-card [isBig]="isBig" [code]="card"></xh-card>
+   </div>
+
+</div>
+
+
+<!-- <div class="card-container" cdkDropList 
+   cdkDropListOrientation="horizontal"
    [class.item-dragging]="dragging"
    (cdkDropListDropped)="droppedIntoList($event)" 
    [cdkDropListDisabled]="isDisabled"
    [cdkDropListEnterPredicate]="cardPredicate">
 
-   <div cdkDrag class="card-showcase" [class.isTrump]="isTrump"
+   <div cdkDrag 
       *ngFor="let card of cards; let index = index"
+      class="card-showcase" [class.isTrump]="isTrump"
       [class.selected]="isSelected(index)"
       (cdkDragStarted)="dragStarted($event, index)" (cdkDragEnded)="dragEnded()"
       (cdkDragDropped)="dropped($event)" (click)="select($event, index)">
@@ -25,4 +45,4 @@
       </ng-template>
    </div>
 
-</div>
+</div> -->
